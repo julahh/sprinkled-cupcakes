@@ -12,6 +12,7 @@
 html,
 body {
   width: 100%;
+  height: 100%;
   min-height: 100%;
   margin: 0;
 }
@@ -20,6 +21,8 @@ body {
   display: grid;
   place-items: center;
   overflow: hidden;
+  min-height: 100svh;
+  min-height: 100dvh;
   background:
     radial-gradient(circle at 18% 16%, rgba(255, 128, 31, 0.32), transparent 26%),
     radial-gradient(circle at 84% 18%, rgba(255, 211, 83, 0.18), transparent 25%),
@@ -29,7 +32,8 @@ body {
 .shell {
   display: grid;
   width: min(100vw, 1040px);
-  height: min(100vh, 720px);
+  height: min(100svh, 720px);
+  height: min(100dvh, 720px);
   min-height: 520px;
   padding: 18px;
 }
@@ -52,14 +56,34 @@ body {
   height: 100%;
 }
 
+.rotate-hint {
+  position: fixed;
+  left: 50%;
+  bottom: max(14px, env(safe-area-inset-bottom));
+  z-index: 5;
+  display: none;
+  width: min(92vw, 360px);
+  transform: translateX(-50%);
+  padding: 10px 14px;
+  border: 1px solid rgba(255, 211, 83, 0.45);
+  border-radius: 8px;
+  background: rgba(22, 15, 34, 0.86);
+  color: #fff2bf;
+  font-size: 15px;
+  font-weight: 800;
+  text-align: center;
+  pointer-events: none;
+}
+
 @media (max-width: 720px) {
   body {
-    overflow: auto;
+    overflow: hidden;
   }
 
   .shell {
     width: 100vw;
-    height: 100vh;
+    height: 100svh;
+    height: 100dvh;
     min-height: 0;
     padding: 0;
   }
@@ -67,5 +91,11 @@ body {
   .game-wrap {
     border: 0;
     border-radius: 0;
+  }
+}
+
+@media (orientation: portrait) and (max-width: 720px) {
+  .rotate-hint {
+    display: block;
   }
 }
