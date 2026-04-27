@@ -69,6 +69,7 @@ class PlayScene extends Phaser.Scene {
     this.createBackground();
     this.createHud();
     this.createStartOverlay();
+    this.setupViewportRefresh();
 
     this.input.on("pointerdown", (pointer, targets) => {
       if (!this.isPlaying || targets.length > 0) {
@@ -80,6 +81,20 @@ class PlayScene extends Phaser.Scene {
       const theme = THEMES[this.selectedTheme];
       this.playMissSound();
       this.showFloatingText(pointer.x, pointer.y, theme.missText, theme.missColor, 18);
+    });
+  }
+
+  setupViewportRefresh() {
+    const refresh = () => {
+      window.setTimeout(() => this.scale?.refresh?.(), 120);
+      window.setTimeout(() => this.scale?.refresh?.(), 500);
+    };
+
+    window.addEventListener("resize", refresh);
+    window.addEventListener("orientationchange", refresh);
+    this.events.once(Phaser.Scenes.Events.SHUTDOWN, () => {
+      window.removeEventListener("resize", refresh);
+      window.removeEventListener("orientationchange", refresh);
     });
   }
 
@@ -554,14 +569,24 @@ class PlayScene extends Phaser.Scene {
   }
 
   enterFullscreen() {
-    if (!this.scale.isFullscreen) {
-      this.scale.startFullscreen();
+    try {
+      if (!this.scale.isFullscreen) {
+        this.scale.startFullscreen();
+      }
+    } catch (error) {
+      // Some mobile browsers block fullscreen, so keep the normal fitted layout.
     }
 
     const orientation = screen.orientation || screen.mozOrientation || screen.msOrientation;
     if (orientation?.lock) {
-      orientation.lock("landscape").catch(() => {});
+      try {
+        orientation.lock("landscape").catch(() => {});
+      } catch (error) {
+        // Orientation lock support is inconsistent across phones.
+      }
     }
+
+    window.setTimeout(() => this.scale?.refresh?.(), 300);
   }
 
   addMenuWallpaper(container) {
