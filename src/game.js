@@ -5,8 +5,7 @@ const ROUND_SECONDS = 45;
 const THEMES = {
   classic: {
     title: "Sprinkled Cupcakes",
-    subtitle: "Tap each cupcake while the bakery rush is hot.",
-    instruction: "Click the sprinkled cupcakes before they leave the counter.",
+    subtitle: "Tap 'em all before they're gone!",
     missText: "miss",
     expireText: "too slow",
     overlayColor: 0xfff1d6,
@@ -18,7 +17,7 @@ const THEMES = {
     hud: "#4c2d26",
     hudStroke: "#fff2df",
     combo: "#d84f80",
-    footer: "#7c5a51",
+    footer: "#3d2730",
     floating: "#d84f80",
     missColor: "#ff746b",
     targetKeys: ["classic-pink", "classic-mint", "classic-lemon", "classic-berry"],
@@ -26,7 +25,6 @@ const THEMES = {
   spooky: {
     title: "Spooky Sprinkled Cupcakes",
     subtitle: "Tap each spooky cupcake before it disappears.",
-    instruction: "Click the spooky cupcakes before they vanish.",
     missText: "boo!",
     expireText: "vanished",
     overlayColor: 0x160f22,
@@ -38,7 +36,7 @@ const THEMES = {
     hud: "#fff3c7",
     hudStroke: "#160f22",
     combo: "#9bff6a",
-    footer: "#cda7de",
+    footer: "#fff3c7",
     floating: "#9bff6a",
     missColor: "#ff8a1f",
     targetKeys: ["spooky-pumpkin", "spooky-candy", "spooky-bat", "spooky-witch"],
@@ -480,19 +478,25 @@ class PlayScene extends Phaser.Scene {
       .setDepth(10);
 
     this.add
-      .text(GAME_WIDTH / 2, GAME_HEIGHT - 32, theme.instruction, {
+      .text(GAME_WIDTH / 2, GAME_HEIGHT - 28, "Nom. Nom. Nom.", {
         fontFamily: '"Comic Sans MS", "Comic Sans", cursive',
         fontSize: "18px",
-        color: theme.overlaySubtext,
+        fontStyle: "800",
+        color: theme.footer,
+        stroke: theme.hudStroke,
+        strokeThickness: 3,
       })
       .setOrigin(0.5, 1)
       .setDepth(10);
 
     this.add
-      .text(GAME_WIDTH / 2, GAME_HEIGHT - 8, "Copyright Tauren Games Studio", {
+      .text(GAME_WIDTH / 2, GAME_HEIGHT - 8, "© 2026 Tauren Games Studios", {
         fontFamily: '"Comic Sans MS", "Comic Sans", cursive',
-        fontSize: "13px",
+        fontSize: "14px",
+        fontStyle: "800",
         color: theme.footer,
+        stroke: theme.hudStroke,
+        strokeThickness: 3,
       })
       .setOrigin(0.5, 1)
       .setDepth(10);
