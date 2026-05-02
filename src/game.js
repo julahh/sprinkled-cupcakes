@@ -69,6 +69,7 @@ class PlayScene extends Phaser.Scene {
     this.createBackground();
     this.createHud();
     this.createStartOverlay();
+    this.setupViewportRefresh();
 
     this.input.on("pointerdown", (pointer, targets) => {
       if (!this.isPlaying || targets.length > 0) {
@@ -80,6 +81,20 @@ class PlayScene extends Phaser.Scene {
       const theme = THEMES[this.selectedTheme];
       this.playMissSound();
       this.showFloatingText(pointer.x, pointer.y, theme.missText, theme.missColor, 18);
+    });
+  }
+
+  setupViewportRefresh() {
+    const refresh = () => {
+      window.setTimeout(() => this.scale?.refresh?.(), 120);
+      window.setTimeout(() => this.scale?.refresh?.(), 500);
+    };
+
+    window.addEventListener("resize", refresh);
+    window.addEventListener("orientationchange", refresh);
+    this.events.once(Phaser.Scenes.Events.SHUTDOWN, () => {
+      window.removeEventListener("resize", refresh);
+      window.removeEventListener("orientationchange", refresh);
     });
   }
 
@@ -530,38 +545,7 @@ class PlayScene extends Phaser.Scene {
       this.startRound();
     });
 
-    const fullscreenButton = this.add
-      .rectangle(GAME_WIDTH / 2, 508, 250, 46, 0x2a2034, 0.92)
-      .setStrokeStyle(2, theme.button, 0.9)
-      .setInteractive({ useHandCursor: true });
-    const fullscreenLabel = this.add
-      .text(GAME_WIDTH / 2, 508, "Full screen", {
-        fontFamily: '"Comic Sans MS", "Comic Sans", cursive',
-        fontSize: "20px",
-        fontStyle: "800",
-        color: "#fff3c7",
-      })
-      .setOrigin(0.5);
-
-    fullscreenButton.on("pointerover", () => fullscreenButton.setFillStyle(0x3a2b46, 0.96));
-    fullscreenButton.on("pointerout", () => fullscreenButton.setFillStyle(0x2a2034, 0.92));
-    fullscreenButton.on("pointerdown", () => {
-      this.playClickSound();
-      this.enterFullscreen();
-    });
-
-    this.overlay.add([...classicButton, ...spookyButton, button, this.startButtonLabel, fullscreenButton, fullscreenLabel]);
-  }
-
-  enterFullscreen() {
-    if (!this.scale.isFullscreen) {
-      this.scale.startFullscreen();
-    }
-
-    const orientation = screen.orientation || screen.mozOrientation || screen.msOrientation;
-    if (orientation?.lock) {
-      orientation.lock("landscape").catch(() => {});
-    }
+    this.overlay.add([...classicButton, ...spookyButton, button, this.startButtonLabel]);
   }
 
   addMenuWallpaper(container) {
