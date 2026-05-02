@@ -545,48 +545,7 @@ class PlayScene extends Phaser.Scene {
       this.startRound();
     });
 
-    const fullscreenButton = this.add
-      .rectangle(GAME_WIDTH / 2, 508, 250, 46, 0x2a2034, 0.92)
-      .setStrokeStyle(2, theme.button, 0.9)
-      .setInteractive({ useHandCursor: true });
-    const fullscreenLabel = this.add
-      .text(GAME_WIDTH / 2, 508, "Full screen", {
-        fontFamily: '"Comic Sans MS", "Comic Sans", cursive',
-        fontSize: "20px",
-        fontStyle: "800",
-        color: "#fff3c7",
-      })
-      .setOrigin(0.5);
-
-    fullscreenButton.on("pointerover", () => fullscreenButton.setFillStyle(0x3a2b46, 0.96));
-    fullscreenButton.on("pointerout", () => fullscreenButton.setFillStyle(0x2a2034, 0.92));
-    fullscreenButton.on("pointerdown", () => {
-      this.playClickSound();
-      this.enterFullscreen();
-    });
-
-    this.overlay.add([...classicButton, ...spookyButton, button, this.startButtonLabel, fullscreenButton, fullscreenLabel]);
-  }
-
-  enterFullscreen() {
-    try {
-      if (!this.scale.isFullscreen) {
-        this.scale.startFullscreen();
-      }
-    } catch (error) {
-      // Some mobile browsers block fullscreen, so keep the normal fitted layout.
-    }
-
-    const orientation = screen.orientation || screen.mozOrientation || screen.msOrientation;
-    if (orientation?.lock) {
-      try {
-        orientation.lock("landscape").catch(() => {});
-      } catch (error) {
-        // Orientation lock support is inconsistent across phones.
-      }
-    }
-
-    window.setTimeout(() => this.scale?.refresh?.(), 300);
+    this.overlay.add([...classicButton, ...spookyButton, button, this.startButtonLabel]);
   }
 
   addMenuWallpaper(container) {

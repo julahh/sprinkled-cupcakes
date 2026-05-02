@@ -6,6 +6,17 @@
     <title>Sprinkled Cupcakes</title>
     <link rel="stylesheet" href="./styles.css" />
     <script src="https://cdn.jsdelivr.net/npm/phaser@3/dist/phaser.min.js"></script>
+    <script>
+      const setGameHeight = () => {
+        const height = window.visualViewport?.height || window.innerHeight || document.documentElement.clientHeight;
+        document.documentElement.style.setProperty("--game-height", `${height}px`);
+      };
+
+      setGameHeight();
+      window.addEventListener("resize", setGameHeight);
+      window.addEventListener("orientationchange", () => window.setTimeout(setGameHeight, 250));
+      window.visualViewport?.addEventListener("resize", setGameHeight);
+    </script>
   </head>
   <body>
     <main class="shell">
@@ -13,7 +24,7 @@
         <div id="game"></div>
       </section>
     </main>
-    <div class="rotate-hint">Turn your phone sideways, then tap Full screen.</div>
+    <div class="rotate-hint">Turn your phone sideways for the best view.</div>
     <script src="./src/game.js"></script>
   </body>
 </html>
