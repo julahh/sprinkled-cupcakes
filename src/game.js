@@ -477,29 +477,6 @@ class PlayScene extends Phaser.Scene {
       .setOrigin(0.5, 0)
       .setDepth(10);
 
-    this.add
-      .text(GAME_WIDTH / 2, GAME_HEIGHT - 28, "Nom. Nom. Nom.", {
-        fontFamily: '"Comic Sans MS", "Comic Sans", cursive',
-        fontSize: "18px",
-        fontStyle: "800",
-        color: theme.footer,
-        stroke: theme.hudStroke,
-        strokeThickness: 3,
-      })
-      .setOrigin(0.5, 1)
-      .setDepth(10);
-
-    this.add
-      .text(GAME_WIDTH / 2, GAME_HEIGHT - 8, "© 2026 Tauren Games Studios", {
-        fontFamily: '"Comic Sans MS", "Comic Sans", cursive',
-        fontSize: "14px",
-        fontStyle: "800",
-        color: theme.footer,
-        stroke: theme.hudStroke,
-        strokeThickness: 3,
-      })
-      .setOrigin(0.5, 1)
-      .setDepth(10);
   }
 
   createStartOverlay() {
@@ -541,6 +518,26 @@ class PlayScene extends Phaser.Scene {
         color: theme.buttonText,
       })
       .setOrigin(0.5);
+    const menuNomText = this.add
+      .text(GAME_WIDTH / 2, 520, "Nom. Nom. Nom.", {
+        fontFamily: '"Comic Sans MS", "Comic Sans", cursive',
+        fontSize: "18px",
+        fontStyle: "800",
+        color: theme.footer,
+        stroke: theme.hudStroke,
+        strokeThickness: 3,
+      })
+      .setOrigin(0.5);
+    const menuCopyrightText = this.add
+      .text(GAME_WIDTH / 2, 548, "© 2026 Tauren Games Studios", {
+        fontFamily: '"Comic Sans MS", "Comic Sans", cursive',
+        fontSize: "14px",
+        fontStyle: "800",
+        color: theme.footer,
+        stroke: theme.hudStroke,
+        strokeThickness: 3,
+      })
+      .setOrigin(0.5);
 
     button.on("pointerover", () => button.setFillStyle(theme.buttonHover));
     button.on("pointerout", () => button.setFillStyle(theme.button));
@@ -549,7 +546,7 @@ class PlayScene extends Phaser.Scene {
       this.startRound();
     });
 
-    this.overlay.add([...classicButton, ...spookyButton, button, this.startButtonLabel]);
+    this.overlay.add([...classicButton, ...spookyButton, button, this.startButtonLabel, menuNomText, menuCopyrightText]);
   }
 
   addMenuWallpaper(container) {
